@@ -144,8 +144,12 @@ class JsonServerRouter {
 
     if (routes) {
       Object.keys(routes).forEach(key => {
+        debug(key, routes[key])
         router.use(rewrite(key, routes[key]))
       })
+      this.templateStore.push(
+        new PartTemplate(routes, 'routes', '', true).render()
+      )
     }
 
     return router
@@ -162,7 +166,7 @@ function PartRouter (routes, prefix) {
   this.routes = routes
   this.getRoutes = app => app.use(`${prefix}`, jsonServer.router(routes))
 }
-function PartTemplate (routes, prefix, filePath) {
+function PartTemplate (routes, prefix, filePath, isRoutesConfig = false) {
   const arr = []
   this.render = () => {
     arr.push(
@@ -170,8 +174,13 @@ function PartTemplate (routes, prefix, filePath) {
     )
     arr.push('<ul>')
     for (let key in routes) {
-      let uri = `${prefix}/${key}`.replace(/\/index$/, '')
-      arr.push(`<li> <a href="${uri}">${uri} </a></li>`)
+      if (isRoutesConfig) {
+        let uriMapping = `${key} --> ${routes[key]}`
+        arr.push(`<li>${uriMapping}</li>`)
+      } else {
+        let uri = `${prefix}/${key}`.replace(/\/index$/, '')
+        arr.push(`<li> <a href="${uri}">${uri} </a></li>`)
+      }
     }
     arr.push('</ul>')
     return arr.join('\n')

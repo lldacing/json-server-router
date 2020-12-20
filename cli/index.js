@@ -96,6 +96,7 @@ const argv = yargs
       require('../lib/createRouter')(argv)
     }
   )
+  // 调用--help的时候才会打印example的信息，yargs.help()不会打印
   // .example('$0 mock')
   // .example('$0 mock --port 3000')
   .help()

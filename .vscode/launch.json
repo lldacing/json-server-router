@@ -4,18 +4,31 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    {
-        "type": "node",
-        "request": "attach",
-        "name": "Attach",
-        "port": 9229
-    },
-
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach",
+            "port": 9229
+        },
         {
             "type": "node",
             "request": "launch",
             "name": "启动程序",
-            "program": "${file}"
+            // 打开cli/index.js，运行
+            "program": "${file}",
+            // 指定运行时的路径
+            "cwd": "${workspaceFolder}/example",
+            // 参数
+            "args": [
+                "mock"
+            ],
+            "runtimeArgs": [],
+            "env": {
+                "DEBUG": "jsr:*"
+            },
+            //不配置debug模块的日志无法实时输出
+            "outputCapture": "std",
+            "console": "internalConsole"
         }
     ]
 }

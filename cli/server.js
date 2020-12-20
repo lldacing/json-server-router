@@ -16,7 +16,16 @@ const JsonServerRouter = require('../index')
  */
 
 module.exports = function createServer (opts) {
-  const { root, host, port, open, static: publicPath, handler, queryMap } = opts
+  const {
+    root,
+    host,
+    port,
+    open,
+    routes,
+    static: publicPath,
+    handler,
+    queryMap
+  } = opts
   const middlewares = jsonServer.defaults({
     bodyParser: true,
     static: publicPath
@@ -27,6 +36,7 @@ module.exports = function createServer (opts) {
     host,
     port,
     open,
+    routes,
     publicPath
   })
   const upload = multer({ dest: path.join(publicPath, 'temp') })
